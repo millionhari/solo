@@ -1,0 +1,26 @@
+{
+  "name": "wewatch",
+  "version": "1.0.0",
+  "description": "WeWatch allows you to watch movies/videos online with others.",
+  "main": "server.js",
+  "scripts": {
+    "test": "console.log('success')",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/millionhari/2015-02-solo.git"
+  },
+  "keywords": [
+    "wewatch"
+  ],
+  "author": "millionhari",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/millionhari/2015-02-solo/issues"
+  },
+  "homepage": "https://github.com/millionhari/2015-02-solo",
+  "dependencies": {
+    "express": "^4.12.2"
+  }
+}

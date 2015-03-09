@@ -1,4 +1,4 @@
-# Project Name #
+# WeWatch #
 
 <!-- 
 > This material was originally posted [here](http://www.quora.com/What-is-Amazons-approach-to-product-development-and-product-management). It is reproduced here for posterities sake.
@@ -17,28 +17,28 @@ Once the project moves into development, the press release can be used as a touc
  -->
  
 ## Heading ##
-  > Name the product in a way the reader (i.e. your target customers) will understand.
+  > WeWatch
 
 ## Sub-Heading ##
-  > Describe who the market for the product is and what benefit they get. One sentence only underneath the title.
+  > For people who want to watch movies together remotely
 
 ## Summary ##
-  > Give a summary of the product and the benefit. Assume the reader will not read anything else so make this paragraph good.
+  > WeWatch allows you to watch movies/videos online with others.
 
 ## Problem ##
-  > Describe the problem your product solves.
+  > Couples/friends want to watch movies with each other, but they can't always be in the same place.
 
 ## Solution ##
-  > Describe how your product elegantly solves the problem.
+  > WeWatch solves that by allowing users to watch movies/videos with each other, allowing each other to pause, rewind, fast forward, etc. The users will be able to see each other in a small window connected via webcam.
 
 ## Quote from You ##
-  > A quote from a spokesperson in your company.
+  > "Never has it been easier for people to watch their favorite show with their loved ones remotely"
 
 ## How to Get Started ##
-  > Describe how easy it is to get started.
+  > Login with Facebook, pick a movie from the library/enter a youtube link, invite your friend, and start watching!
 
 ## Customer Quote ##
-  > Provide a quote from a hypothetical customer that describes how they experienced the benefit.
+  > "My girlfriend lives across the country, but never has it been easier to watch a movie with her!"
 
 ## Closing and Call to Action ##
-  > Wrap it up and give pointers where the reader should go next.
+  > Go to wewatch.io to start watching now!

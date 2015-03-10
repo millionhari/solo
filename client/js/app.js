@@ -110,15 +110,15 @@ eventsDataRef.on('value', function(snapshot) {
   switch(state.state) {
     case 'buffering':
       break;
-      
+
     case 'paused':
-      if (state.state === 'paused'){
+      if (state.state !== 'paused'){
         player.pauseVideo();
         console.log('GET: Paused');
       }
       break;
     case 'playing':
-      if (state.state === 'playing'){
+      if (state.state !== 'playing'){
         player.playVideo();
         console.log('GET: Playing');
       }

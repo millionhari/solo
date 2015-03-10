@@ -47,7 +47,6 @@ var tag = document.createElement('script');
 
 // Run when video player is ready
 function onPlayerReady(event) {
-  event.target.mute();
   // Get data from firebase server and jump to current video
   // position upon entering room
   eventsDataRef.on('value', function(data){
@@ -65,36 +64,40 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 
-// Listen to player state, and updata state data to firebase
+// SET: Listen to player state, and update state data to firebase
 function onPlayerStateChange(event) {
-  var state;
   switch(event.data) {
     case 3:
-      state = 'buffering';
       eventsDataRef.update({time: player.getCurrentTime()});
+      eventsDataRef.update({state: 'buffering'});
+      console.log('buffering');
       break;
     case 2:
-      state = 'pause';
       eventsDataRef.update({time: player.getCurrentTime()});
+      eventsDataRef.update({state: 'pause'});
+      console.log('pause');
       break;
     case 1:
-      state = 'play';
-      player.playVideo();
+      eventsDataRef.update({state: 'play'});
+      console.log('play');
       break;
     case -1:
-      state = 'unstarted';
+      eventsDataRef.update({state: 'unstarted'});
+      console.log('unstarted');
       break;
     case 5:
-      state = 'cued';
+      eventsDataRef.update({state: 'cued'});
+      console.log('cued');
       break;
   }
+}
 
-  eventsDataRef.update({state: state});
+// GET: Retrieve player state, call functions
+
   // if (event.data == YT.PlayerState.PLAYING && !done) {
     // setTimeout(stopVideo, 6000);
     // done = true;
   // }
-}
 $( document ).ready(function() {
 
 });

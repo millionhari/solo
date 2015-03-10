@@ -71,8 +71,8 @@ function onPlayerStateChange(event) {
       // console.log('buffering');
       break;
     case 2:
-      eventsDataRef.update({time: player.getCurrentTime()});
       eventsDataRef.update({state: 'paused'});
+      eventsDataRef.update({time: player.getCurrentTime()});
       // console.log('paused');
       break;
     case 1:
@@ -107,10 +107,28 @@ var videoControls = {
 // Watches for changes in Firebase data
 eventsDataRef.on('value', function(snapshot) {
   var state = snapshot.val(); // set message variable to whatever message is added
-
-  // Sync video state with firebase state
-  if (playerStates[player.getPlayerState()] === state.state){
-    videoControls[player.getPlayerState()]();
-    console.log(playerStates[player.getPlayerState()]);
+  switch(state.state) {
+    case 'buffering':
+      break;
+      
+    case 'paused':
+      if (state.state === 'paused'){
+        player.pauseVideo();
+        console.log('GET: Paused');
+      }
+      break;
+    case 'playing':
+      if (state.state === 'playing'){
+        player.playVideo();
+        console.log('GET: Playing');
+      }
+      break;
+    case 'unstarted':
+      console.log('GET: Unstarted');
+      break;
+    case 'video cued':
+      console.log('GET: Video cued');
+      break;
   }
+
 });

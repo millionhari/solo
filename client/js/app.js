@@ -6,6 +6,11 @@ var eventsDataRef = new Firebase('https://wewatch.firebaseio.com/events');
 // Create iframe when API code downloads
 var player;
 
+// Set time of the video
+setInterval(function(){
+  eventsDataRef.update({time: player.getCurrentTime()})
+}, 1)
+
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
     height: '400',
@@ -17,7 +22,6 @@ function onYouTubeIframeAPIReady() {
     }
   });
 }
-
 
 var videoControls = {
   playVid : function() {
@@ -40,39 +44,41 @@ var tag = document.createElement('script');
 
 // Run when video player is ready
 function onPlayerReady(event) {
+  player.seekTo(30);
   event.target.mute();
   event.target.playVideo();
   eventsDataRef.set({state: 'play'});
 
 }
 
-// Call function when player's state changes. When video is playing, state === 1
 var done = false;
-
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
+
+// Listen to player state, and send data to firebase
 function onPlayerStateChange(event) {
   // on pause
   if (event.data === 2){
-    eventsDataRef.set({state: 'pause'});
+    eventsDataRef.update({state: 'pause'});
+    // eventsDataRef.update({time: player.getCurrentTime()})
   }
   // on play
   if (event.data === 1){
-    eventsDataRef.set({state: 'play'});
+    eventsDataRef.update({state: 'play'});
   }
   // on unstarted
   if (event.data === -1){
-    eventsDataRef.set({state: 'unstarted'});
+    eventsDataRef.update({state: 'unstarted'});
   }
   // on unstarted
   if (event.data === 3){
-    eventsDataRef.set({state: 'buffering'});
+    eventsDataRef.update({state: 'buffering'});
   }
   // on video cue
   if (event.data === 5){
-    eventsDataRef.set({state: 'cued'});
+    eventsDataRef.update({state: 'cued'});
   }
   console.log(event);
   // if (event.data == YT.PlayerState.PLAYING && !done) {

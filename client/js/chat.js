@@ -1,5 +1,5 @@
 // Firebase
-var chatDataRef = new Firebase('https://wewatch.firebaseio.com/chat');
+var chatDataRef = new Firebase('https://wewatch.firebaseio.com/'+room+'/chat');
 
 // FIREBASE POST add messages to array
 var chat = {

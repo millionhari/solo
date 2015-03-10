@@ -79,6 +79,7 @@ function onPlayerStateChange(event) {
       break;
     case 1:
       state = 'play';
+      player.playVideo();
       break;
     case -1:
       state = 'unstarted';

@@ -1,13 +1,13 @@
 // Global variable room
-var room = prompt('What room would you like to join?')
+var room = prompt('What room would you like to join?');
 
 // Firebase
 var eventsDataRef = new Firebase('https://wewatch.firebaseio.com/'+room+'/events');
-eventsDataRef.remove();
 
 // Youtube Video
 // Create iframe when API code downloads
 var player;
+var hello = '';
 
 // Set time of the video
 // setInterval(function(){
@@ -24,6 +24,7 @@ function onYouTubeIframeAPIReady() {
       'onStateChange': onPlayerStateChange
     }
   });
+
 }
 
 var videoControls = {
@@ -47,9 +48,13 @@ var tag = document.createElement('script');
 
 // Run when video player is ready
 function onPlayerReady(event) {
-  // player.seekTo(eventsDataRef.);
   event.target.mute();
-  event.target.playVideo();
+  // Get data from firebase server
+  eventsDataRef.on('value', function(data){
+    var currentTime = data.val();
+    player.seekTo(currentTime.time);
+  })
+  event.target.pauseVideo();
   eventsDataRef.child(player.videoId.toString()).update({state: 'play'});
 }
 
@@ -59,12 +64,13 @@ var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 
-// Listen to player state, and send data to firebase
+// GET Listen to player state, and send data to firebase
 function onPlayerStateChange(event) {
   // on pause
   if (event.data === 2){
     eventsDataRef.update({state: 'pause'});
-    // eventsDataRef.update({time: player.getCurrentTime()})
+    eventsDataRef.update({time: player.getCurrentTime()});
+    console.log('event data 2');
   }
   // on play
   if (event.data === 1){
@@ -75,16 +81,18 @@ function onPlayerStateChange(event) {
     eventsDataRef.update({state: 'unstarted'});
   }
   // on unstarted
-  if (event.data === 3){
-    eventsDataRef.update({state: 'buffering'});
-  }
+  // if (event.data === 3){
+  //   eventsDataRef.update({state: 'buffering'});
+  // }
   // on video cue
   if (event.data === 5){
     eventsDataRef.update({state: 'cued'});
   }
-  console.log(event);
   // if (event.data == YT.PlayerState.PLAYING && !done) {
     // setTimeout(stopVideo, 6000);
     // done = true;
   // }
 }
+$( document ).ready(function() {
+
+});

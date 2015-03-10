@@ -1,15 +1,18 @@
-// Firebase
-var eventsDataRef = new Firebase('https://wewatch.firebaseio.com/events');
+// Global variable room
+var room = prompt('What room would you like to join?')
 
+// Firebase
+var eventsDataRef = new Firebase('https://wewatch.firebaseio.com/'+room+'/events');
+eventsDataRef.remove();
 
 // Youtube Video
 // Create iframe when API code downloads
 var player;
 
 // Set time of the video
-setInterval(function(){
-  eventsDataRef.update({time: player.getCurrentTime()})
-}, 1)
+// setInterval(function(){
+//   eventsDataRef.update({time: player.getCurrentTime()})
+// }, 1)
 
 function onYouTubeIframeAPIReady() {
   player = new YT.Player('player', {
@@ -44,11 +47,10 @@ var tag = document.createElement('script');
 
 // Run when video player is ready
 function onPlayerReady(event) {
-  player.seekTo(30);
+  // player.seekTo(eventsDataRef.);
   event.target.mute();
   event.target.playVideo();
-  eventsDataRef.set({state: 'play'});
-
+  eventsDataRef.child(player.videoId.toString()).update({state: 'play'});
 }
 
 var done = false;

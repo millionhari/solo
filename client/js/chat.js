@@ -1,21 +1,23 @@
 // Firebase
-var myDataRef = new Firebase('https://wewatch.firebaseio.com/');
+var chatDataRef = new Firebase('https://wewatch.firebaseio.com/chat');
 
 // FIREBASE POST add messages to array
 var chat = {
   post : function() {
       var name = $('.nameInput').val();
       var text = $('.messageInput').val();
-      myDataRef.push({name: name, text: text});
+      // chatDataRef.push({name: name, text: text});
+      chatDataRef.push({name: name, text: text});
+
       $('.messageInput').val('');
-      // myDataRef.set('User ' + name + ' says ' + text); <-- String
-      // myDataRef.set({name: name, text: text}); <-- Object
+      // chatDataRef.set('User ' + name + ' says ' + text); <-- String
+      // chatDataRef.set({name: name, text: text}); <-- Object
     }
 
 };
 
 // FIREBASE GET when message is added
-myDataRef.on('child_added', function(snapshot) {
+chatDataRef.on('child_added', function(snapshot) {
   var message = snapshot.val(); // set message variable to whatever message is added
   displayChatMessage(message.name, message.text);
 });

@@ -1,5 +1,5 @@
 // Firebase
-var myDataRef = new Firebase('https://wewatch.firebaseio.com/');
+var eventsDataRef = new Firebase('https://wewatch.firebaseio.com/events');
 
 
 // Youtube Video
@@ -18,8 +18,14 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-var videoControls = {
 
+var videoControls = {
+  playVid : function() {
+    player.playVideo(data);
+  },
+  stopVid : function() {
+    player.stopVideo(data);
+  }
 };
 
 function getURL(){
@@ -31,29 +37,43 @@ function getURL(){
 
 var tag = document.createElement('script');
 
-tag.src = "https://www.youtube.com/iframe_api";
-var firstScriptTag = document.getElementsByTagName('script')[0];
-firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
-
 
 // Run when video player is ready
 function onPlayerReady(event) {
   event.target.mute();
   event.target.playVideo();
+  eventsDataRef.set({state: 'play'});
+
 }
 
-function stopVideo() {
-  player.stopVideo();
-}
-
-function playVideo() {
-  player.playVideo();
-}
 // Call function when player's state changes. When video is playing, state === 1
 var done = false;
-function onPlayerStateChange(event) {
-  
 
+tag.src = "https://www.youtube.com/iframe_api";
+var firstScriptTag = document.getElementsByTagName('script')[0];
+firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+function onPlayerStateChange(event) {
+  // on pause
+  if (event.data === 2){
+    eventsDataRef.set({state: 'pause'});
+  }
+  // on play
+  if (event.data === 1){
+    eventsDataRef.set({state: 'play'});
+  }
+  // on unstarted
+  if (event.data === -1){
+    eventsDataRef.set({state: 'unstarted'});
+  }
+  // on unstarted
+  if (event.data === 3){
+    eventsDataRef.set({state: 'buffering'});
+  }
+  // on video cue
+  if (event.data === 5){
+    eventsDataRef.set({state: 'cued'});
+  }
   console.log(event);
   // if (event.data == YT.PlayerState.PLAYING && !done) {
     // setTimeout(stopVideo, 6000);

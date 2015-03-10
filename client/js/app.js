@@ -1,5 +1,8 @@
+// Firebase
+var myDataRef = new Firebase('https://wewatch.firebaseio.com/');
 
-//Youtube Video
+
+// Youtube Video
 function getURL(){
   // var requestedURL = prompt('What is the link of your YouTube video?');
   // requestedURL = requestedURL.split('/watch?v=');
@@ -43,21 +46,6 @@ function playVideo() {
 // Call function when player's state changes. When video is playing, state === 1
 var done = false;
 
-// AJAX requests
-var app = {
-  send: function(data){
-  $.ajax({
-      url: '/',
-      type: 'GET',
-      success: function(data){
-        console.log('success', data)
-      },
-      error: function(data){
-        console.log('error', data)
-      }
-    })
-  }
-}
 
 function onPlayerStateChange(event) {
   

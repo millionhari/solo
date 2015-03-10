@@ -7,3 +7,15 @@
 .player-wrapper {
   text-align: center;
 }
+
+.row {
+  margin: 0;
+}
+
+.urlInput {
+  width: 656px;
+}
+
+input.nameInput, input.messageInput {
+  width: 180px;
+}

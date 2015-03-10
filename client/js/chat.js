@@ -4,16 +4,15 @@ var myDataRef = new Firebase('https://wewatch.firebaseio.com/');
 // FIREBASE POST add messages to array
 var chat = {
   post : function() {
-      var name = $('#nameInput').val();
-      var text = $('#messageInput').val();
+      var name = $('.nameInput').val();
+      var text = $('.messageInput').val();
       myDataRef.push({name: name, text: text});
-      $('#messageInput').val('');
-      $('#messageInput').val('');
+      $('.messageInput').val('');
       // myDataRef.set('User ' + name + ' says ' + text); <-- String
       // myDataRef.set({name: name, text: text}); <-- Object
     }
-};
 
+};
 
 // FIREBASE GET when message is added
 myDataRef.on('child_added', function(snapshot) {
@@ -23,14 +22,15 @@ myDataRef.on('child_added', function(snapshot) {
 
 // FIREBASE display chat messages
 function displayChatMessage(name, text) {
-  $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('#messagesDiv'));
-  // $('#messagesDiv')[0].scrollTop = $('#messagesDiv')[0].scrollHeight;
+  // console.log(name, text);
+  $('<div/>').text(text).prepend($('<em/>').text(name+': ')).appendTo($('.messages-wrapper'));
+  $('.messages-wrapper')[0].scrollTop = $('.messages-wrapper')[0].scrollHeight;
 };
 
 
 // Load when page loads  
 $( document ).ready(function() {
-  $('#messageInput').keypress(function (e) {
+  $('.messageInput').keypress(function (e) {
       if (e.keyCode == 13) {
       chat.post();
     }

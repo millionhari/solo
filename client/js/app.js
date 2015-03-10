@@ -1,12 +1,25 @@
 // Global variable room
 var room = prompt('What room would you like to join?');
+function getURL(){
+  // var requestedURL = prompt('What is the link of your YouTube video?');
+  // requestedURL = requestedURL.split('/watch?v=');
+  requestedURL = [0,'uBENjCPS8LI'];
+  return(requestedURL[1]);
+}
 
 // Firebase
 var eventsDataRef = new Firebase('https://wewatch.firebaseio.com/'+room+'/events');
 
 // Youtube Video
 // Create iframe when API code downloads
-var player; 
+var player;
+var playerStates = {
+  0: 'ended',
+  1: 'playing',
+  2: 'paused',
+  3: 'buffering',
+  5: 'video cued'
+}
 
 // Set time of the video
 // setInterval(function(){
@@ -25,14 +38,6 @@ function onYouTubeIframeAPIReady() {
   });
 }
 
-function getURL(){
-  // var requestedURL = prompt('What is the link of your YouTube video?');
-  // requestedURL = requestedURL.split('/watch?v=');
-  requestedURL = [0,'uBENjCPS8LI'];
-  return(requestedURL[1]);
-}
-
-var tag = document.createElement('script');
 
 
 // Run when video player is ready
@@ -45,50 +50,67 @@ function onPlayerReady(event) {
   })
   event.target.pauseVideo();
   // event.target.playVideo();
-  // eventsDataRef.update({state: 'play'});
+  eventsDataRef.update({state: 'paused'});
 }
 
+// Add to page
 var done = false;
+var tag = document.createElement('script');
 tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
 
 // SET: Listen to player state, and update state data to firebase
+// Watches for changes in YouTube player
 function onPlayerStateChange(event) {
   switch(event.data) {
     case 3:
       eventsDataRef.update({time: player.getCurrentTime()});
       eventsDataRef.update({state: 'buffering'});
-      console.log('buffering');
+      // console.log('buffering');
       break;
     case 2:
       eventsDataRef.update({time: player.getCurrentTime()});
-      eventsDataRef.update({state: 'pause'});
-      console.log('pause');
+      eventsDataRef.update({state: 'paused'});
+      // console.log('paused');
       break;
     case 1:
-      eventsDataRef.update({state: 'play'});
-      console.log('play');
+      eventsDataRef.update({state: 'playing'});
+      // console.log('playing');
       break;
     case -1:
       eventsDataRef.update({state: 'unstarted'});
-      console.log('unstarted');
+      // console.log('unstarted');
       break;
     case 5:
-      eventsDataRef.update({state: 'cued'});
-      console.log('cued');
+      eventsDataRef.update({state: 'video cued'});
+      // console.log('video cued');
       break;
   }
 }
 
-// TODO
+// Establish video controls
+var videoControls = {
+  1 : function(){
+    player.playVideo()
+  },
+  2 : function(){
+    player.pauseVideo()
+  },
+  0 : function(){
+    player.stopVideo();
+  }
+}
+
 // GET: Retrieve player state, call functions
+// Watches for changes in Firebase data
+eventsDataRef.on('value', function(snapshot) {
+  var state = snapshot.val(); // set message variable to whatever message is added
 
-  // if (event.data == YT.PlayerState.PLAYING && !done) {
-    // setTimeout(stopVideo, 6000);
-    // done = true;
-  // }
-$( document ).ready(function() {
-
+  // Sync video state with firebase state
+  if (playerStates[player.getPlayerState()] === state.state){
+    videoControls[player.getPlayerState()]();
+    console.log(playerStates[player.getPlayerState()]);
+  }
 });

@@ -1,6 +1,7 @@
 .messages-wrapper {
 	height: 400px;
   padding: 5px;
+  overflow: auto;
 }
 
 .player-wrapper {

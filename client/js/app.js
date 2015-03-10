@@ -3,6 +3,25 @@ var myDataRef = new Firebase('https://wewatch.firebaseio.com/');
 
 
 // Youtube Video
+// Create iframe when API code downloads
+var player;
+
+function onYouTubeIframeAPIReady() {
+  player = new YT.Player('player', {
+    height: '400',
+    width: '656',
+    videoId: getURL(),
+    events: {
+      'onReady': onPlayerReady,
+      'onStateChange': onPlayerStateChange
+    }
+  });
+}
+
+var videoControls = {
+
+};
+
 function getURL(){
   // var requestedURL = prompt('What is the link of your YouTube video?');
   // requestedURL = requestedURL.split('/watch?v=');
@@ -16,19 +35,6 @@ tag.src = "https://www.youtube.com/iframe_api";
 var firstScriptTag = document.getElementsByTagName('script')[0];
 firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
-// Create iframe when API code downloads
-var player;
-function onYouTubeIframeAPIReady() {
-  player = new YT.Player('player', {
-    height: '600',
-    width: '985',
-    videoId: getURL(),
-    events: {
-      'onReady': onPlayerReady,
-      'onStateChange': onPlayerStateChange
-    }
-  });
-}
 
 // Run when video player is ready
 function onPlayerReady(event) {
@@ -45,8 +51,6 @@ function playVideo() {
 }
 // Call function when player's state changes. When video is playing, state === 1
 var done = false;
-
-
 function onPlayerStateChange(event) {
   
 

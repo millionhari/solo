@@ -6,8 +6,7 @@ var eventsDataRef = new Firebase('https://wewatch.firebaseio.com/'+room+'/events
 
 // Youtube Video
 // Create iframe when API code downloads
-var player;
-var hello = '';
+var player; 
 
 // Set time of the video
 // setInterval(function(){
@@ -25,15 +24,6 @@ function onYouTubeIframeAPIReady() {
     }
   });
 }
-
-var videoControls = {
-  playVid : function() {
-    player.playVideo(data);
-  },
-  stopVid : function() {
-    player.stopVideo(data);
-  }
-};
 
 function getURL(){
   // var requestedURL = prompt('What is the link of your YouTube video?');
@@ -92,6 +82,7 @@ function onPlayerStateChange(event) {
   }
 }
 
+// TODO
 // GET: Retrieve player state, call functions
 
   // if (event.data == YT.PlayerState.PLAYING && !done) {
